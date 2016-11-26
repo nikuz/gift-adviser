@@ -6,7 +6,7 @@ var log = require('./modules/log'),
   dbConnected;
 
 if (!db) {
-
+  db = true; // temp
 }
 
 // ----------------
