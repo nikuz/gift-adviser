@@ -25,7 +25,7 @@ exports = module.exports = function(options, callback) {
   workflow.on('crawl', function() {
     jsdom.env(
       url,
-      ["http://code.jquery.com/jquery.js"],
+      ['http://code.jquery.com/jquery.js'],
       function(err, window) {
         if (err) {
           cb(err);
