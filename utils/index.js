@@ -7,7 +7,7 @@ var _ = require('underscore'),
 env.load();
 
 var utils = [
-
+  './crawler',
 ];
 
 exports = module.exports = function(grunt, done, env, target, args) {
