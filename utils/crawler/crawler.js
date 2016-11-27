@@ -6,7 +6,10 @@ var db = require('../../app/db'),
   validator = require('../../app/modules/validator'),
   EventEmitter = require('events').EventEmitter,
   jsdom = require('jsdom'),
-  urls = require('./urls.json');
+  urls = require('./urls.json'),
+  amazonParser = require('./parsers/amazon'),
+  ebayParser = require('./parsers/ebay'),
+  aliexpressParser = require('./parsers/aliexpress');
 
 exports = module.exports = function(options = {}, cb = _.noop) {
   var workflow = new EventEmitter();
@@ -70,14 +73,20 @@ exports = module.exports = function(options = {}, cb = _.noop) {
               return internalCallback(err);
             }
 
-            let price = window.$('#priceblock_ourprice').text() ||
-              window.$('#priceblock_dealprice').text();
+            let data;
+            switch (item.provider) {
+              case 'amazon':
+                data = amazonParser(window.$);
+                break;
+              case 'ebay':
+                data = ebayParser(window.$);
+                break;
+              case 'aliexpress':
+                data = aliexpressParser(window.$);
+                break;
+            }
 
-            internalCallback(null, {
-              name: window.$('#productTitle').text(),
-              price: price,
-              rating: parseFloat(window.$('#reviewStarsLinkedCustomerReviews .a-icon-alt').text())
-            });
+            internalCallback(null, data);
           });
         },
         function(data, internalCallback) {
