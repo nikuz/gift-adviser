@@ -97,8 +97,7 @@ function insert(options = {}, callback = _.noop) {
     var fields = _.keys(options.fields),
       values = _.values(options.fields),
       query = `INSERT INTO ${options.to}(??) VALUES(?)`;
-    
-    console.log(mysql.format(query, [fields, values]));
+
     connection.query(query, [fields, values], callback);
   });
 

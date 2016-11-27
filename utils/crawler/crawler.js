@@ -32,7 +32,7 @@ exports = module.exports = function(options = {}, cb = _.noop) {
         db.select({
           from: 'goods',
           fields: ['url'],
-          where: `url IN (${_.map(urls, (item) => { return `'${item.url}'`; })})`
+          where: `url IN (${_.map(urls, (item) => `'${item.url}'`)})`
         }, function(err, response) {
           if (err) {
             callback(err);
@@ -70,8 +70,8 @@ exports = module.exports = function(options = {}, cb = _.noop) {
               return internalCallback(err);
             }
 
-            let price = window.$('#priceblock_ourprice').text()
-              || window.$('#priceblock_dealprice').text();
+            let price = window.$('#priceblock_ourprice').text() ||
+              window.$('#priceblock_dealprice').text();
 
             internalCallback(null, {
               name: window.$('#productTitle').text(),
