@@ -6,9 +6,9 @@ var _ = require('underscore'),
 
 env.load();
 
-var utils = [
-  './crawler',
-];
+var utils = {
+  crawler: './crawler/crawler',
+};
 
 exports = module.exports = function(grunt, done, env, target, args) {
   env = env && env.toUpperCase();
@@ -17,12 +17,11 @@ exports = module.exports = function(grunt, done, env, target, args) {
   }
   process.env.NODE_ENV = env;
 
-  target = './' + target;
-  if (target && _.contains(utils, target)) {
+  if (target && _.contains(_.keys(utils), target)) {
     grunt.option('stack', true);
     grunt.log.writeln();
     var options = qs.parse(args) || {};
-    require(target)(options, function(err, response) {
+    require(utils[target])(options, function(err, response) {
       if (err) {
         grunt.option('stack', false);
         grunt.log.error(err);
@@ -40,8 +39,8 @@ exports = module.exports = function(grunt, done, env, target, args) {
     grunt.log.writeln('grunt utils --target=utilityName [--env=dev|prod] [--args="arg1=argValue"]');
     grunt.log.writeln();
     grunt.log.writeln('Available utils:');
-    _.each(utils, function(item) {
-      grunt.log.writeln(' - ' + item.replace('./', ''));
+    _.each(utils, function(value, key) {
+      grunt.log.writeln(' - ' + key);
     });
     done(false);
   }
