@@ -2,3 +2,4 @@ node_modules/*
 log/*
 .env
 TODO.txt
+utils/crawler/urls.json
